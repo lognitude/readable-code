@@ -1,4 +1,4 @@
-package cleancode.studycafe.tobe.model;
+package cleancode.studycafe.tobe.machine.model.enums;
 
 public enum StudyCafePassType {
 
@@ -12,4 +12,7 @@ public enum StudyCafePassType {
         this.description = description;
     }
 
+    public boolean cannotUseLocker() {
+        return this != StudyCafePassType.FIXED;
+    }
 }
