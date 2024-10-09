@@ -3,7 +3,7 @@ package cleancode.studycafe.tobe.machine.io.view;
 import cleancode.studycafe.tobe.machine.InputHandler;
 import cleancode.studycafe.tobe.machine.io.view.util.LockerStatusConverter;
 import cleancode.studycafe.tobe.machine.io.view.util.StudyCafePassTypeConverter;
-import cleancode.studycafe.tobe.machine.io.view.vo.SelectedIndex;
+import cleancode.studycafe.tobe.machine.model.vo.SelectedIndex;
 import cleancode.studycafe.tobe.machine.model.enums.LockerStatus;
 import cleancode.studycafe.tobe.machine.model.enums.StudyCafePassType;
 import java.util.Scanner;

@@ -2,7 +2,7 @@ package cleancode.studycafe.tobe.machine;
 
 import cleancode.studycafe.tobe.machine.dto.OrderSummaryDto;
 import cleancode.studycafe.tobe.machine.model.StudyCafePass;
-import java.util.List;
+import cleancode.studycafe.tobe.machine.model.StudyCafePasses;
 
 public interface OutputHandler {
 
@@ -12,7 +12,7 @@ public interface OutputHandler {
 
     void askPassTypeSelection();
 
-    void showPassListForSelection(List<StudyCafePass> passes);
+    void showPassListForSelection(StudyCafePasses passes);
 
     void askLockerPass(StudyCafePass lockerPass);
 

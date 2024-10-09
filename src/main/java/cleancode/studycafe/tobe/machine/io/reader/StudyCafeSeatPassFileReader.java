@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudyCafePassFileReader implements StudyCafePassReader {
+public class StudyCafeSeatPassFileReader implements StudyCafePassReader {
 
     private static final String PASS_LIST_FILE_NAME = "src/main/resources/cleancode/studycafe/pass-list.csv";
     private static final String FILE_CONTENT_DELIMITER = ",";

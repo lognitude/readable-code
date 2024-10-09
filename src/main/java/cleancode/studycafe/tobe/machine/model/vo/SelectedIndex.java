@@ -1,4 +1,4 @@
-package cleancode.studycafe.tobe.machine.io.view.vo;
+package cleancode.studycafe.tobe.machine.model.vo;
 
 import cleancode.studycafe.asis.exception.AppException;
 import java.util.Objects;
@@ -23,27 +23,6 @@ public class SelectedIndex {
         return this.value >= target;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SelectedIndex targetSelectedIndex = (SelectedIndex) o;
-        return value == targetSelectedIndex.value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
-    }
-
     private static int convertIndexValue(String userInput) {
         try {
             return Integer.parseInt(userInput) - 1;
@@ -56,5 +35,26 @@ public class SelectedIndex {
         if (value < 0) {
             throw new AppException("1 이상의 값을 입력해주세요.");
         }
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SelectedIndex targetSelectedIndex = (SelectedIndex) o;
+        return value == targetSelectedIndex.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }

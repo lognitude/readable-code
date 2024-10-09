@@ -1,6 +1,7 @@
 package cleancode.studycafe.tobe.machine.model.vo;
 
 import cleancode.studycafe.tobe.machine.exception.AppClientException;
+import java.util.Objects;
 
 public class StudyCafePassPrice {
 
@@ -44,5 +45,22 @@ public class StudyCafePassPrice {
 
     public Money getPrice() {
         return price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        StudyCafePassPrice that = (StudyCafePassPrice) o;
+        return Double.compare(discountRate, that.discountRate) == 0 && Objects.equals(price, that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(price, discountRate);
     }
 }

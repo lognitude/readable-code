@@ -34,7 +34,7 @@ public class StudyCafeLockerPass implements StudyCafePass {
 
     @Override
     public boolean cannotUseLocker() {
-        return passInfo.cannotUseLocker();
+        return false;
     }
 
     @Override

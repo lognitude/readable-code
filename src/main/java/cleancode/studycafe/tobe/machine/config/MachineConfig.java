@@ -1,21 +1,20 @@
 package cleancode.studycafe.tobe.machine.config;
 
-import cleancode.studycafe.tobe.machine.StudyCafePassMachine;
-import cleancode.studycafe.tobe.machine.finder.StudyCafeLockerPassFinder;
-import cleancode.studycafe.tobe.machine.finder.StudyCafeLockerPassFinders;
-import cleancode.studycafe.tobe.machine.finder.StudyCafeSeatPassFinders;
-import cleancode.studycafe.tobe.machine.finder.locker.StudyCafeFixedLockerPassFinder;
-import cleancode.studycafe.tobe.machine.io.reader.StudyCafeLockerPassFileReader;
-import cleancode.studycafe.tobe.machine.io.reader.StudyCafePassFileReader;
-import cleancode.studycafe.tobe.machine.io.reader.StudyCafePassReader;
-import cleancode.studycafe.tobe.machine.io.view.ConsoleInputHandler;
-import cleancode.studycafe.tobe.machine.io.view.ConsoleOutputHandler;
 import cleancode.studycafe.tobe.machine.InputHandler;
 import cleancode.studycafe.tobe.machine.OutputHandler;
+import cleancode.studycafe.tobe.machine.StudyCafePassMachine;
+import cleancode.studycafe.tobe.machine.finder.StudyCafeLockerPassFinders;
+import cleancode.studycafe.tobe.machine.finder.StudyCafePassFinder;
+import cleancode.studycafe.tobe.machine.finder.StudyCafeSeatPassFinders;
+import cleancode.studycafe.tobe.machine.finder.locker.StudyCafeFixedPassFinder;
 import cleancode.studycafe.tobe.machine.finder.seat.StudyCafeFixedSeatPassFinder;
 import cleancode.studycafe.tobe.machine.finder.seat.StudyCafeHourlySeatPassFinder;
-import cleancode.studycafe.tobe.machine.finder.StudyCafeSeatPassFinder;
 import cleancode.studycafe.tobe.machine.finder.seat.StudyCafeWeeklySeatPassFinder;
+import cleancode.studycafe.tobe.machine.io.reader.StudyCafeLockerPassFileReader;
+import cleancode.studycafe.tobe.machine.io.reader.StudyCafePassReader;
+import cleancode.studycafe.tobe.machine.io.reader.StudyCafeSeatPassFileReader;
+import cleancode.studycafe.tobe.machine.io.view.ConsoleInputHandler;
+import cleancode.studycafe.tobe.machine.io.view.ConsoleOutputHandler;
 import java.util.List;
 
 public class MachineConfig {
@@ -30,17 +29,17 @@ public class MachineConfig {
     }
 
     private StudyCafeSeatPassFinders getStudyCafeSeatPassFinders() {
-        List<StudyCafeSeatPassFinder> passFinderList = getStudyCafeSeatPassFinderList();
-        return StudyCafeSeatPassFinders.from(passFinderList);
+        List<StudyCafePassFinder> seatPassFinderList = getStudyCafeSeatPassFinderList();
+        return StudyCafeSeatPassFinders.from(seatPassFinderList);
     }
 
     private StudyCafeLockerPassFinders getStudyCafeLockerPassFinders() {
-        List<StudyCafeLockerPassFinder> lockerPassFinderList = getStudyCafeLockerPassFinderList();
+        List<StudyCafePassFinder> lockerPassFinderList = getStudyCafeLockerPassFinderList();
         return StudyCafeLockerPassFinders.from(lockerPassFinderList);
     }
 
-    private List<StudyCafeSeatPassFinder> getStudyCafeSeatPassFinderList() {
-        StudyCafePassReader passReader = new StudyCafePassFileReader();
+    private List<StudyCafePassFinder> getStudyCafeSeatPassFinderList() {
+        StudyCafePassReader passReader = new StudyCafeSeatPassFileReader();
 
         return List.of(
                 StudyCafeHourlySeatPassFinder.from(passReader),
@@ -49,9 +48,9 @@ public class MachineConfig {
         );
     }
 
-    private List<StudyCafeLockerPassFinder> getStudyCafeLockerPassFinderList() {
+    private List<StudyCafePassFinder> getStudyCafeLockerPassFinderList() {
         StudyCafePassReader lockerPassReader = new StudyCafeLockerPassFileReader();
 
-        return List.of(StudyCafeFixedLockerPassFinder.from(lockerPassReader));
+        return List.of(StudyCafeFixedPassFinder.from(lockerPassReader));
     }
 }

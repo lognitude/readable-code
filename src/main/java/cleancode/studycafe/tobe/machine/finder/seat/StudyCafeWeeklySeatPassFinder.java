@@ -1,23 +1,24 @@
 package cleancode.studycafe.tobe.machine.finder.seat;
 
-import cleancode.studycafe.tobe.machine.finder.StudyCafeSeatPassFinder;
+import cleancode.studycafe.tobe.machine.finder.StudyCafePassFinder;
 import cleancode.studycafe.tobe.machine.io.reader.StudyCafePassReader;
 import cleancode.studycafe.tobe.machine.model.StudyCafePass;
+import cleancode.studycafe.tobe.machine.model.StudyCafePasses;
 import cleancode.studycafe.tobe.machine.model.enums.StudyCafePassType;
 import java.util.List;
 
-public class StudyCafeWeeklySeatPassFinder implements StudyCafeSeatPassFinder {
+public class StudyCafeWeeklySeatPassFinder implements StudyCafePassFinder {
 
     private static final StudyCafePassType PASS_TYPE = StudyCafePassType.WEEKLY;
 
-    private final StudyCafePassReader passReader;
+    private final StudyCafePassReader seatPassReader;
 
-    private StudyCafeWeeklySeatPassFinder(StudyCafePassReader passReader) {
-        this.passReader = passReader;
+    private StudyCafeWeeklySeatPassFinder(StudyCafePassReader seatPassReader) {
+        this.seatPassReader = seatPassReader;
     }
 
-    public static StudyCafeWeeklySeatPassFinder from(StudyCafePassReader passReader) {
-        return new StudyCafeWeeklySeatPassFinder(passReader);
+    public static StudyCafeWeeklySeatPassFinder from(StudyCafePassReader seatPassReader) {
+        return new StudyCafeWeeklySeatPassFinder(seatPassReader);
     }
 
     @Override
@@ -26,18 +27,23 @@ public class StudyCafeWeeklySeatPassFinder implements StudyCafeSeatPassFinder {
     }
 
     @Override
-    public List<StudyCafePass> findAll() {
-        List<StudyCafePass> totalStudyCafeSeatPasses = getTotalStudyCafePasses();
-        return getWeeklyStudyCafePasses(totalStudyCafeSeatPasses);
+    public StudyCafePasses findAll() {
+        List<StudyCafePass> seatPasses = getTotalStudyCafePasses();
+        List<StudyCafePass> weeklySeatPasses = getWeeklyStudyCafeSeatPasses(seatPasses);
+        return convertStudyCafePasses(weeklySeatPasses);
     }
 
     private List<StudyCafePass> getTotalStudyCafePasses() {
-        return passReader.readStudyCafePasses();
+        return seatPassReader.readStudyCafePasses();
     }
 
-    private List<StudyCafePass> getWeeklyStudyCafePasses(List<StudyCafePass> studyCafeSeatPasses) {
+    private List<StudyCafePass> getWeeklyStudyCafeSeatPasses(List<StudyCafePass> studyCafeSeatPasses) {
         return studyCafeSeatPasses.stream()
                                   .filter(studyCafePass -> studyCafePass.isSamePassType(PASS_TYPE))
                                   .toList();
+    }
+
+    private StudyCafePasses convertStudyCafePasses(List<StudyCafePass> target) {
+        return StudyCafePasses.from(target);
     }
 }

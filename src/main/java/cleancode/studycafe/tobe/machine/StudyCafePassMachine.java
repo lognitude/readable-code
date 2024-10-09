@@ -1,16 +1,14 @@
 package cleancode.studycafe.tobe.machine;
 
 import cleancode.studycafe.tobe.machine.dto.OrderSummaryDto;
-import cleancode.studycafe.tobe.machine.exception.AppClientException;
 import cleancode.studycafe.tobe.machine.exception.AppException;
-import cleancode.studycafe.tobe.machine.exception.AppServerException;
 import cleancode.studycafe.tobe.machine.finder.StudyCafeLockerPassFinders;
 import cleancode.studycafe.tobe.machine.finder.StudyCafeSeatPassFinders;
-import cleancode.studycafe.tobe.machine.io.view.vo.SelectedIndex;
+import cleancode.studycafe.tobe.machine.model.vo.SelectedIndex;
 import cleancode.studycafe.tobe.machine.model.StudyCafePass;
+import cleancode.studycafe.tobe.machine.model.StudyCafePasses;
 import cleancode.studycafe.tobe.machine.model.enums.LockerStatus;
 import cleancode.studycafe.tobe.machine.model.enums.StudyCafePassType;
-import java.util.List;
 
 public class StudyCafePassMachine {
 
@@ -45,7 +43,7 @@ public class StudyCafePassMachine {
 
         try {
             StudyCafePassType passType = getPassTypeSelectingUserAction();
-            List<StudyCafePass> seatPasses = findAllPassesBy(passType);
+            StudyCafePasses seatPasses = findAllPassesBy(passType);
             StudyCafePass selectedSeatPass = getPassSelectingUserAction(seatPasses);
             OrderSummaryDto orderSummaryDto = processOrderSummary(selectedSeatPass);
 
@@ -67,17 +65,15 @@ public class StudyCafePassMachine {
         return inputHandler.getPassTypeSelectingUserAction();
     }
 
-    private List<StudyCafePass> findAllPassesBy(StudyCafePassType passType) {
+    private StudyCafePasses findAllPassesBy(StudyCafePassType passType) {
         return seatPassFinders.findAllBy(passType);
     }
 
-    private StudyCafePass getPassSelectingUserAction(List<StudyCafePass> studyCafePasses) {
+    private StudyCafePass getPassSelectingUserAction(StudyCafePasses studyCafePasses) {
         outputHandler.showPassListForSelection(studyCafePasses);
 
         SelectedIndex selectedIndex = inputHandler.getSelectPass();
-        validateSelectedIndex(studyCafePasses, selectedIndex);
-
-        return studyCafePasses.get(selectedIndex.getValue());
+        return studyCafePasses.getSelectedPass(selectedIndex);
     }
 
     private OrderSummaryDto processOrderSummary(StudyCafePass seatPass) {
@@ -90,8 +86,8 @@ public class StudyCafePassMachine {
             return OrderSummaryDto.from(seatPass);
         }
 
-        List<StudyCafePass> lockerPasses = lockerPassFinders.findAllBy(seatPass.getPassInfo().getPassType());
-        StudyCafePass selectedLockerPass = getSelectedLockerPass(lockerPasses, seatPass);
+        StudyCafePasses lockerPasses = getTotalLockerPasses(seatPass);
+        StudyCafePass selectedLockerPass = getSelectedPass(lockerPasses, seatPass);
         return OrderSummaryDto.of(seatPass, selectedLockerPass);
     }
 
@@ -99,24 +95,16 @@ public class StudyCafePassMachine {
         outputHandler.showPassOrderSummary(orderSummaryDto);
     }
 
-    private static StudyCafePass getSelectedLockerPass(
-            List<StudyCafePass> lockerPasses,
-            StudyCafePass selectedSeatPass
-    ) {
-        return lockerPasses.stream()
-                           .filter(lockerPass -> lockerPass.isSamePassInfo(selectedSeatPass))
-                           .findAny()
-                           .orElseThrow(() -> new AppServerException("지정한 좌석에 해당하는 락커가 없습니다."));
+    private StudyCafePasses getTotalLockerPasses(StudyCafePass seatPass) {
+        return lockerPassFinders.findAllBy(seatPass.getPassInfo().getPassType());
+    }
+
+    private StudyCafePass getSelectedPass(StudyCafePasses passes, StudyCafePass selectedPass) {
+        return passes.getSameStudyCafeInfoPassBy(selectedPass);
     }
 
     private LockerStatus getLockerStatusSelectingUserAction(StudyCafePass selectedSeatPass) {
         outputHandler.askLockerPass(selectedSeatPass);
         return inputHandler.getLockerSelection();
-    }
-
-    private void validateSelectedIndex(List<StudyCafePass> studyCafePasses, SelectedIndex selectedIndex) {
-        if (selectedIndex.isGreaterOrEqualTo(studyCafePasses.size())) {
-            throw new AppClientException(studyCafePasses.size() + " 이하의 값을 입력해주세요.");
-        }
     }
 }

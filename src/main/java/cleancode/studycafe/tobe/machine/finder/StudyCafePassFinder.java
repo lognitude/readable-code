@@ -1,12 +1,11 @@
 package cleancode.studycafe.tobe.machine.finder;
 
-import cleancode.studycafe.tobe.machine.model.StudyCafePass;
+import cleancode.studycafe.tobe.machine.model.StudyCafePasses;
 import cleancode.studycafe.tobe.machine.model.enums.StudyCafePassType;
-import java.util.List;
 
-public interface StudyCafeLockerPassFinder {
+public interface StudyCafePassFinder {
 
     boolean support(StudyCafePassType passType);
 
-    List<StudyCafePass> findAll();
+    StudyCafePasses findAll();
 }
