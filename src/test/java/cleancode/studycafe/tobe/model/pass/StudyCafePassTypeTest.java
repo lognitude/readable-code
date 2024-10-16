@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class StudyCafePassTypeTest {
 
-    @ParameterizedTest(name = "StudyCafePass가 {0}일 때 {1}을 반환한다")
+    @ParameterizedTest(name = "StudyCafePassType이 {0}일 때 {1}을 반환한다")
     @DisplayName("isLockerType() 메서드는 해당 StudyCafePassType이 LockerType인지 여부를 반환한다")
     @MethodSource("isLockerTypeTestArguments")
     void isLockerTypeTest(StudyCafePassType passType, boolean expected) {
@@ -21,7 +21,7 @@ class StudyCafePassTypeTest {
         assertThat(actual).isSameAs(expected);
     }
 
-    @ParameterizedTest(name = "StudyCafePass가 {0}일 때 {1}을 반환한다")
+    @ParameterizedTest(name = "StudyCafePassType이 {0}일 때 {1}을 반환한다")
     @DisplayName("isLockerType() 메서드는 해당 StudyCafePassType이 LockerType가 아닌지 여부를 반환한다")
     @MethodSource("isNotLockerTypeTestArguments")
     void isNotLockerTypeTest(StudyCafePassType passType, boolean expected) {
