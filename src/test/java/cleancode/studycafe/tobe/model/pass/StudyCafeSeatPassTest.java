@@ -24,7 +24,7 @@ class StudyCafeSeatPassTest {
         assertThat(actual).isInstanceOf(StudyCafeSeatPass.class);
     }
 
-    @ParameterizedTest(name = "StudyCafeSeatPas의 StudyCafePassType이 {0} 일 때 {1}을 반환한다")
+    @ParameterizedTest(name = "StudyCafeSeatPass의 StudyCafePassType이 {0} 일 때 {1}을 반환한다")
     @DisplayName("cannotUseLocker() 메서드는 StudyCafeSeatPass가 락커를 사용할 수 있는지 여부를 반환한다")
     @MethodSource("cannotUseLockerTestArguments")
     void cannotUseLockerTest(StudyCafePassType passType, boolean expected) {
