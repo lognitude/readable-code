@@ -18,11 +18,15 @@ class StudyCafeLockerPassTest {
     @DisplayName("of() 메서드는 유효한 파라미터를 전달하면 StudyCafeSeatPass를 초기화해 반환한다")
     void ofTest() {
         // when & then
+        int duration = 1;
+        int price = 2;
+
         StudyCafeLockerPass actual = assertDoesNotThrow(
-            () -> StudyCafeLockerPass.of(StudyCafePassType.HOURLY, 1, 1)
+            () -> StudyCafeLockerPass.of(StudyCafePassType.HOURLY, duration, price)
         );
 
-        assertThat(actual).isInstanceOf(StudyCafeLockerPass.class);
+        assertThat(actual).extracting("duration", "price")
+                          .containsExactly(duration, price);
     }
 
     private static Stream<Arguments> isSamePassTypeTestArguments() {

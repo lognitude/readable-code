@@ -21,7 +21,8 @@ class StudyCafeSeatPassesTest {
         // when & then
         StudyCafeSeatPasses actual = assertDoesNotThrow(() -> StudyCafeSeatPasses.of(studyCafeSeatPasses));
 
-        assertThat(actual).isInstanceOf(StudyCafeSeatPasses.class);
+        assertThat(actual).extracting("passes")
+                          .isEqualTo(studyCafeSeatPasses);
     }
 
     @Test

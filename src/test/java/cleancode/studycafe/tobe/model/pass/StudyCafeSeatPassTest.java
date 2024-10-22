@@ -17,11 +17,16 @@ class StudyCafeSeatPassTest {
     @DisplayName("of() 메서드는 유효한 파라미터를 전달하면 StudyCafeSeatPass를 초기화해 반환한다")
     void ofTest() {
         // when & then
+        int duration = 1;
+        int price = 2;
+        double discountRate = 3.0d;
+
         StudyCafeSeatPass actual = assertDoesNotThrow(
-            () -> StudyCafeSeatPass.of(StudyCafePassType.HOURLY, 1, 1, 1.0d)
+            () -> StudyCafeSeatPass.of(StudyCafePassType.HOURLY, duration, price, discountRate)
         );
 
-        assertThat(actual).isInstanceOf(StudyCafeSeatPass.class);
+        assertThat(actual).extracting("duration", "price", "discountRate")
+                          .containsExactly(duration, price, discountRate);
     }
 
     private static Stream<Arguments> cannotUseLockerTestArguments() {
@@ -57,7 +62,8 @@ class StudyCafeSeatPassTest {
     @ParameterizedTest(name = "StudyCafeSeatPass의 StudyCafePassType이 {0}, duration이 {1}이고 StudyCafeLockerPass의 StudyCafePassType이 {2}, duration이 {3}일 때 {4}를 반환한다")
     @DisplayName("isSameDurationType() 메서드는 전달한 StudyCafeLockerPass의 StudyCafePassType과 duration이 같은지 여부를 반환한다")
     @MethodSource("isSameDurationTypeTestArguments")
-    void isSameDurationTypeTest(StudyCafePassType seatPassType, int seatPassDuration, StudyCafePassType lockerPassType, int lockerPassDuration, boolean expected) {
+    void isSameDurationTypeTest(StudyCafePassType seatPassType, int seatPassDuration, StudyCafePassType lockerPassType,
+        int lockerPassDuration, boolean expected) {
         // given
         StudyCafeSeatPass seatPass = StudyCafeSeatPass.of(seatPassType, seatPassDuration, 1, 1.0d);
 

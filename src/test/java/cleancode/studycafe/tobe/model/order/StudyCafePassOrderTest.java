@@ -25,7 +25,12 @@ class StudyCafePassOrderTest {
         // when & then
         StudyCafePassOrder actual = assertDoesNotThrow(() -> StudyCafePassOrder.of(seatPass, lockerPass));
 
-        assertThat(actual).isInstanceOf(StudyCafePassOrder.class);
+        assertAll(
+                () -> assertThat(actual).extracting("seatPass")
+                                        .isEqualTo(seatPass),
+                () -> assertThat(actual).extracting("lockerPass")
+                                        .isEqualTo(Optional.of(lockerPass))
+        );
     }
 
     @Test
@@ -97,8 +102,8 @@ class StudyCafePassOrderTest {
 
         // then
         assertAll(
-            () -> assertThat(actual).isPresent(),
-            () -> assertThat(actual).contains(lockerPass)
+                () -> assertThat(actual).isPresent(),
+                () -> assertThat(actual).contains(lockerPass)
         );
     }
 
