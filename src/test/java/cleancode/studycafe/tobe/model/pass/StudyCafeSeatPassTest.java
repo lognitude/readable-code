@@ -24,6 +24,14 @@ class StudyCafeSeatPassTest {
         assertThat(actual).isInstanceOf(StudyCafeSeatPass.class);
     }
 
+    private static Stream<Arguments> cannotUseLockerTestArguments() {
+        return Stream.of(
+            Arguments.of(StudyCafePassType.FIXED, false),
+            Arguments.of(StudyCafePassType.HOURLY, true),
+            Arguments.of(StudyCafePassType.WEEKLY, true)
+        );
+    }
+
     @ParameterizedTest(name = "StudyCafeSeatPass의 StudyCafePassType이 {0} 일 때 {1}을 반환한다")
     @DisplayName("cannotUseLocker() 메서드는 StudyCafeSeatPass가 락커를 사용할 수 있는지 여부를 반환한다")
     @MethodSource("cannotUseLockerTestArguments")
@@ -36,6 +44,14 @@ class StudyCafeSeatPassTest {
 
         // then
         assertThat(actual).isSameAs(expected);
+    }
+
+    private static Stream<Arguments> isSameDurationTypeTestArguments() {
+        return Stream.of(
+            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.HOURLY, 1, true),
+            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.HOURLY, 2, false),
+            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.FIXED, 1, false)
+        );
     }
 
     @ParameterizedTest(name = "StudyCafeSeatPass의 StudyCafePassType이 {0}, duration이 {1}이고 StudyCafeLockerPass의 StudyCafePassType이 {2}, duration이 {3}일 때 {4}를 반환한다")
@@ -51,6 +67,14 @@ class StudyCafeSeatPassTest {
 
         // then
         assertThat(actual).isSameAs(expected);
+    }
+
+    private static Stream<Arguments> isSamePassTypeTestArguments() {
+        return Stream.of(
+            Arguments.of(StudyCafePassType.FIXED, false),
+            Arguments.of(StudyCafePassType.HOURLY, true),
+            Arguments.of(StudyCafePassType.WEEKLY, false)
+        );
     }
 
     @ParameterizedTest(name = "StudyCafeSeatPass의 StudyCafePassType이 HOURLY일 때 passType이 {0}이라면 {1}을 반환한다")
@@ -82,29 +106,5 @@ class StudyCafeSeatPassTest {
         int expected = (int) (price * discountRate);
 
         assertThat(actual).isSameAs(expected);
-    }
-
-    private static Stream<Arguments> isSameDurationTypeTestArguments() {
-        return Stream.of(
-            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.HOURLY, 1, true),
-            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.HOURLY, 2, false),
-            Arguments.of(StudyCafePassType.HOURLY, 1, StudyCafePassType.FIXED, 1, false)
-        );
-    }
-
-    private static Stream<Arguments> cannotUseLockerTestArguments() {
-        return Stream.of(
-            Arguments.of(StudyCafePassType.FIXED, false),
-            Arguments.of(StudyCafePassType.HOURLY, true),
-            Arguments.of(StudyCafePassType.WEEKLY, true)
-        );
-    }
-
-    private static Stream<Arguments> isSamePassTypeTestArguments() {
-        return Stream.of(
-            Arguments.of(StudyCafePassType.FIXED, false),
-            Arguments.of(StudyCafePassType.HOURLY, true),
-            Arguments.of(StudyCafePassType.WEEKLY, false)
-        );
     }
 }

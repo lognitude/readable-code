@@ -25,6 +25,14 @@ class StudyCafeLockerPassTest {
         assertThat(actual).isInstanceOf(StudyCafeLockerPass.class);
     }
 
+    private static Stream<Arguments> isSamePassTypeTestArguments() {
+        return Stream.of(
+            Arguments.of(StudyCafePassType.FIXED, false),
+            Arguments.of(StudyCafePassType.HOURLY, true),
+            Arguments.of(StudyCafePassType.WEEKLY, false)
+        );
+    }
+
     @ParameterizedTest(name = "StudyCafeLockerPass의 StudyCafePassType이 HOURLY일 때 passType이 {0}이라면 {1}을 반환한다")
     @DisplayName("isSamePassType() 메서드는 StudyCafeLockerPass의 StudyCafePassType과 전달한 StudyCafePassTyp이 일치하는지 여부를 반환한다")
     @MethodSource("isSamePassTypeTestArguments")
@@ -39,6 +47,13 @@ class StudyCafeLockerPassTest {
         Assertions.assertThat(actual).isSameAs(expected);
     }
 
+    private static Stream<Arguments> isSameDurationTestArguments() {
+        return Stream.of(
+            Arguments.of(1, true),
+            Arguments.of(2, false)
+        );
+    }
+
     @ParameterizedTest(name = "StudyCafeLockerPass의 duration이 1일 때 전달된 duration이 {0}이라면 {1}을 반환한다")
     @DisplayName("isSmaeDuration() 메서드는 StudyCafeLockerPass의 duration과 전달한 duration이 일치하는지 여부를 반환한다")
     @MethodSource("isSameDurationTestArguments")
@@ -51,20 +66,5 @@ class StudyCafeLockerPassTest {
 
         // then
         assertThat(actual).isSameAs(expected);
-    }
-
-    private static Stream<Arguments> isSamePassTypeTestArguments() {
-        return Stream.of(
-            Arguments.of(StudyCafePassType.FIXED, false),
-            Arguments.of(StudyCafePassType.HOURLY, true),
-            Arguments.of(StudyCafePassType.WEEKLY, false)
-        );
-    }
-
-    private static Stream<Arguments> isSameDurationTestArguments() {
-        return Stream.of(
-            Arguments.of(1, true),
-            Arguments.of(2, false)
-        );
     }
 }
